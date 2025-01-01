@@ -6,7 +6,6 @@ body {
     color: #333;
 }
 
-/* Header Styling */
 .header {
     background: url('rb_48.jpg') no-repeat center center;
     background-size: cover;
@@ -26,14 +25,13 @@ body {
 }
 
 .header-box {
-    background-color: rgba(33, 33, 33, 0.9); /* Semi-transparent white */
+    background-color: rgba(33, 33, 33, 0.9); 
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
-/* Header Content */
 .header-content {
     display: flex;
     align-items: center;
@@ -41,31 +39,17 @@ body {
     margin: auto;
 }
 
-/* Header Logo Styling */
 .header-logo {
-    height: 60px; /* Adjust as needed */
-    margin-right: 20px; /* Add space between the image and text */
+    height: 60px; 
+    margin-right: 20px; 
 }
 
-/* Add margin-top to avoid content overlap with fixed header */
+
 body {
-    margin-top: 100px; /* Adjust based on the height of the fixed header */
+    margin-top: 100px;
     font-family: Arial, sans-serif;
 }
 
-/* Header Text Styling */
-.header-text {
-    flex: 1; /* Allow the text to grow and take up available space */
-    text-align: left; /* Ensure the text aligns to the left */
-}
-
-/* Logo Styling */
-.header-logo {
-    height: 50px;
-    margin-right: 20px;
-}
-
-/* Main Text Styling */
 .header h1 {
     margin: 0;
     font-size: 1.5rem;
@@ -81,6 +65,7 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
+    margin-top: 25px;
     margin-bottom: 5px;
 }
 
@@ -107,7 +92,6 @@ pre code {
     white-space: pre;
 }
 
-/* Syntax Highlighting */
 .keyword {
     color: #d73a49;
 }
@@ -130,6 +114,7 @@ ol {
 
 .section {
     position: relative;
+    padding-top: 10px;
 }
 
 .section.highlight {
@@ -137,22 +122,6 @@ ol {
     border-left: 4px solid #333;
 }
 
-/* Additional section padding to create scrolling effect */
-.filler {
-    height: 800px;
-}
-
-.portfolio-link {
-    color: #0066cc;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.portfolio-link:hover {
-    text-decoration: underline;
-}
-
-/* Contact Section Styling */
 #contact {
     padding: 5px 20px;
     background-color: #f9f9f9;
@@ -210,3 +179,38 @@ ol {
     background-color: #005bb5;
 }
 
+.column {
+    float: left;
+    width: 50%;
+  }
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+.topnav {
+    position: fixed;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    background-color: #333;
+    width: 100%; 
+    overflow: hidden;
+    z-index: 1000; 
+}
+  
+  .topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #dcd9d9;
+    color: black;
+}
