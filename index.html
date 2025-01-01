@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Main Header -->
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <a href="https://github.com/MichaelCochran">GitHub</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
     <div class="header" id="mainHeader" >
         <div class="header-box">
             <h1>Code by Mike</h1>
@@ -17,12 +23,16 @@
     <div class="container">
         <div class="section" id="section1">
             <h2>Introduction</h2>
-            <p>Welcome! This page is meant to help recruiters and hiring managers see a little bit about who I am and to better showcase some of the projects I am most proud of. With each of these projects, I will include some disscussion about them but I welcome any questions.</p>
+            <p>Welcome to my portfolio! This page is designed to provide recruiters and hiring managers with insights into who I am and to highlight some of the projects I am most proud of. Each project includes a brief discussion, and I am more than happy to answer any questions you may have. Additionally, I have outlined several key skills below to foster potential discussions or collaboration opportunities.</p>
         </div>
 
         <div class="section" id="section2">
             <h2>Projects</h2>
             <p>This section will showcase some of the projects I've worked on. From personal projects to professional work, each project demonstrates my skills and experience. Links to these projects are provided where possible.</p>
+            
+            <h3>Current Employment</h3>
+            <p>In my current role, I contribute to ITASE, a modeling and simulation software developed under government contract to support scenario simulation and analysis. While the work is unclassified, it intersects with classified materials, and details are limited to maintain operational security.</p>
+            <p>My responsibilities include ensuring the quality of the project by collaborating across two distinct teams and facilitating coordination between them. Additionally, I am involved in developing and refining strategies and workflows to optimize quality assurance procedures, ensuring the software meets the highest standards of reliability and performance.</p>
 
             <h3><a href="https://github.com/MichaelCochran/rabbit_breeding">Rabbit Breeding</a></h3>
             <p>This is a project that was initially meant to help me track the breeding production of the rabbits I had on my homestead. Originally this was then end of the functionality planned other than adding a GUI to make it more user friendly.</p>
@@ -30,62 +40,42 @@
 
             <h3><a href="https://github.com/MichaelCochran/Password-Strength">Password Strength</a></h3>
             <p>This rather simplistic script takes user input and gives a bit strength of the password provided. This is one of those projects that is an exercise in futility. There is no practical use for this project it its current state but might be useful if added to another program to ensure useres select passwords of a minimum strength.</p>
-    
+            
+            <h3>NutriFacts</h3>
+            <p>NutriFacts was inspired by my wife’s and my commitment to living a healthier lifestyle. As we worked to improve our nutrition, we noticed gaps in our diet and wanted a practical way to track the nutrients in our meals. This motivation led to the development of NutriFacts as my senior project during my bachelor's degree program.</p>
+            <p>The application allows users to input recipe ingredients along with their quantities. It then queries a publicly available  <a href="https://fdc.nal.usda.gov/">database</a> to calculate the nutritional content of each ingredient. The program aggregates this information and presents it in a clear, user-friendly format resembling a standard nutrition facts label—hence the name, NutriFacts. </p>
+            <p>This project is slated for redevelopment, incorporating improvements identified during the initial version’s development. While no code is currently available for this project, a link will be provided once the updated version is completed.</p>    
         </div>
 
         <div class="section" id="section3">
             <h2>Skills</h2>
+            <p>My professional journey has taken me through a variety of industries and included time in the military, each of which has contributed unique and valuable experiences. These diverse environments have allowed me to cultivate a broad skill set and a well-rounded perspective, enabling me to adapt quickly to new challenges and collaborate effectively with individuals from different backgrounds. Some of the skills I have gained through these experiences are detailed in the list below, showcasing my ability to thrive in dynamic and multifaceted roles.</p>
+            <div class="row">
+                <div class="column">
+                    <li>Project Management</li>
+                    <li>Team Collaboration</li>
+                    <li>Situational Awareness</li>
+                    <li>Effective Communication</li>
+                    <li>Leadership and Decision-Making</li>
+                    <li>Professional Assertiveness</li>
+                    <li>Active Listener</li>
+                    <li>Tactical Problem Solving</li>
+                </div>
+                <div class="column">
+                    <li>Agile Methodology</li>
+                    <li>SDLC</li>
+                    <li>Python</li>
+                    <li>MySQL</li>
+                    <li>Git</li>
+                    <li>GitHub/GitLab</li>
+                    <li>Linux</li>
+                    <li>Shell Scripting</li>
+                    <li>HTML</li>
+                    </ul>
+                </div>
+            </div>
             <ul>
-                <li>Software Engineering</li>
-                <li>Agile Methodology</li>
-                <li>Full Stack Development</li>
-                <li>Project Management</li>
-                <li>SDLC</li>
-                <li>Python</li>
-                <li>MySQL</li>
-                <li>Git/GitHub/GitLab</li>
-                <li>Linux</li>
-                <li>Shell Scripting</li>
-                <li>HTML</li>
-            </ul>
         </div>
-
-        <div class="section" id="contact">
-            <h2>Contact Me</h2>
-            <p>If you'd like to get in touch or learn more, feel free to send me a message using the form below. I would love to collaborate or answer any questions and I'll get back to you as soon as possible!</p>
-            
-            <!-- Contact Form -->
-            <form action="https://formspree.io/f/mdkklkyr" method="POST" id="contactForm">
-                <div class="form-group">
-                    <label for="name">Your Name:</label>
-                    <input type="text" id="name" name="name" required placeholder="Your Name">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Your Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="Your Email">
-                </div>
-
-                <div class="form-group">
-                    <label for="subject">Subject:</label>
-                    <input type="text" id="subject" name="subject" required placeholder="Subject">
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Your Message:</label>
-                    <textarea id="message" name="message" required placeholder="Your message..." rows="4"></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-        </div>
-
-        <div class="section" id="section5">
-            <h2>Find me on GitHub</h2>
-            <p>Check out my GitHub profile to see my projects and contributions:</p>
-            <p><a href="https://github.com/MichaelCochran" class="portfolio-link" target="_blank">Visit my GitHub</a></p>
-        </div>
-
     </div>
 </body>
 </html>
