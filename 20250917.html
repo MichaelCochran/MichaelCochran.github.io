@@ -273,102 +273,149 @@
     <div class="container">
         <header class="header">
             <h1 class="blog-title">Building a Job Application Tracker</h1>
-            <p class="subtitle">Simple Python Scripts That Actually Work</p>
             <div class="meta">Published on September 16, 2025 • 5 min read</div>
         </header>
 
         <article class="article">
             <div class="section">
                 <p>Job hunting is tough enough without losing track of where you've applied. Today, we'll build a simple but effective job application tracker using Python. Whether you're just starting with Python or you're an experienced developer looking for practical examples, this script demonstrates some clean patterns worth knowing.</p>
+
+                <p>When I started applying for jobs recently, I wanted a simple way to track where I’d applied, what stage I was in, and any notes I needed to remember. In the past, I relied on spreadsheets, but they always felt clunky and easy to lose track of. So, I built a lightweight Python tool to handle it instead. Even if you’re an experienced developer, you’ll appreciate the attention to data integrity, file handling, and clean structure in this script. Beginners will also find it approachable—no complex libraries, just the standard library.</p>
+
+                <p>The project isn’t “finished” and that’s by design. There’s plenty of room to add features, and I’ve listed a few ideas in the README found in the <a href="https://github.com/MichaelCochran/job-tracker">Github repo</a>. If you decide to extend it yourself, you’ll not only customize it to your needs but also get some extra practice and confidence along the way.</p>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><span class="number">1.</span>The Clean File Initialization Pattern</h2>
-                <p>First up, let's look at how we handle file setup. This is the kind of defensive programming that prevents headaches later:</p>
+                <h2 class="section-title"><span class="number">1.</span>The Core Idea</h2>
+                <p>This script does three things for us. It initializes a CSV file for storing applications. It adds new job applications via interactive input. It allows you to view all applications in a simple table format. It does all this by using Python’s built-in csv and os modules along with datetime for dates with no extra dependencies required.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="number">2.</span>The Clean File Initialization Pattern</h2>
+                <p>Everything starts with the init_file() function. Before the program does anything else, it makes sure that a file called applications.csv exists and has the correct structure. If the file isn’t there, it creates one with headers: Company, Position, Date Applied, Status, and Notes. If the file does exist, it double-checks that those headers are correct. That may feel like overkill, but it’s actually an important step to prevent data corruption or subtle bugs if the file was ever edited manually.</p>
                 
                 <div class="code-section">
-                    <div class="code-label">File Setup - tracker.py</div>
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                     <pre class="line-numbers"><code class="language-python">def init_file():
-    if not os.path.exists(FILENAME):
+    if not os.path.isfile(FILENAME):
         with open(FILENAME, mode="w", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=FIELDS)
-            writer.writeheader()</code></pre>
+            writer.writeheader()
+        print(f"{FILENAME} created with headers: {FIELDS}")
+    else:
+        with open(FILENAME, mode="r", newline="") as file:
+            reader = csv.reader(file)
+            existing_headers = next(reader, None)
+            if existing_headers != FIELDS:
+                raise ValueError(
+                    f"Header mismatch in {FILENAME}! "
+                    f"Expected: {FIELDS}, Found: {existing_headers}"
+                )
+            print(f"{FILENAME} exists with correct headers.")</code></pre>
                 </div>
-                
-                <div class="why-highlight">
-                    <strong>Why this works:</strong> Shows good defensive programming and file handling. Beginners learn about checking file existence, while experienced devs appreciate the clean setup pattern. No crashes, no overwrites—just smooth operation.
-                </div>
+                <p>This step sets the foundation. You can run the program as often as you want without worrying about overwriting data or working with an inconsistent file.
+</p>
+
             </div>
 
             <div class="section">
-                <h2 class="section-title"><span class="number">2.</span>Smart Date Defaulting</h2>
-                <p>Here's a small touch that makes a big difference in user experience:</p>
+                <h2 class="section-title"><span class="number">3.</span>Smart Date Defaulting</h2>
+                <p>Here's a small touch that makes a big difference in user experience. Instead of having the user enter the current date for every application submitted today, why not have the date default to today?</p>
                 
                 <div class="code-section">
-                    <div class="code-label">User-Friendly Input Handling</div>
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                     <pre class="line-numbers"><code class="language-python">applied_date = input("Date Applied (YYYY-MM-DD, blank for today): ")
 if not applied_date:
     applied_date = str(date.today())</code></pre>
                 </div>
                 
-                <div class="why-highlight">
-                    <strong>Why highlight:</strong> Demonstrates thoughtful UX design in CLI apps. Simple but shows consideration for user experience that both audiences can appreciate. Most applications happen "today" anyway!
-                </div>
+
             </div>
 
             <div class="section">
-                <h2 class="section-title"><span class="number">3.</span>The Complete Data Flow</h2>
-                <p>Clean, readable data handling doesn't need to be complex:</p>
+                <h2 class="section-title"><span class="number">4.</span>Adding Applications</h2>
+                <p>Once the file is ready, the fun part is entering data. The add_application() function prompts you for details like company, position, date, status, and notes. To make the process easier, if you leave the date blank, the program automatically fills in today’s date using date.today(). That tiny feature makes it much faster to use while ensuring the “Date Applied” column is always filled in.</p>
                 
                 <div class="code-section">
-                    <div class="code-label">Structured Data Writing</div>
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                    <pre class="line-numbers"><code class="language-python">writer.writerow({
-    "Company": company,
-    "Position": position,
-    "Date Applied": applied_date,
-    "Status": status,
-    "Notes": notes,
-})</code></pre>
+                    <pre class="line-numbers"><code class="language-python">def add_application():
+    company = input("Company: ")
+    position = input("Position: ")
+    applied_date = input("Date Applied (YYYY-MM-DD, blank for today): ")
+    if not applied_date:
+        applied_date = str(date.today())
+    status = input("Status (Applied/Interviewing/Offer/Rejected): ")
+    notes = input("Notes: ")
+
+    with open(FILENAME, mode="a", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=FIELDS)
+        writer.writerow({
+            "Company": company,
+            "Position": position,
+            "Date Applied": applied_date,
+            "Status": status,
+            "Notes": notes,
+        })</code></pre>
                 </div>
                 
-                <div class="why-highlight">
-                    <strong>Why highlight:</strong> Clean dictionary-based CSV writing that's readable and maintainable. Shows how structured data handling doesn't need to be complex. The field names are self-documenting.
-                </div>
+                <p>Each application gets added as a row in the CSV. Using csv.DictWriter ensures that the values are written under the correct column headers every time, making the file reliable and easy to extend later.</p>
+
             </div>
 
             <div class="section">
-                <h2 class="section-title"><span class="number">4.</span>The Simple but Effective Main Loop</h2>
-                <p>Sometimes the classics work best:</p>
+                <h2 class="section-title"><span class="number">5.</span>Viewing Applications</h2>
+                <p>Data entry is one thing, but being able to quickly review your progress is just as important. The view_applications() function handles that by reading the CSV back in and printing it to the console in a simple, table-like format.
+</p>
                 
                 <div class="code-section">
-                    <div class="code-label">CLI Menu System</div>
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                    <pre class="line-numbers"><code class="language-python">while True:
-    print("\nOptions: [1] Add [2] View [3] Quit")
-    choice = input("Choose: ")
-    if choice == "1":
-        add_application()
-    elif choice == "2":
-        view_applications()
-    elif choice == "3":
-        print("Goodbye!")
-        break
-    else:
-        print("Invalid choice.")</code></pre>
+                    <pre class="line-numbers"><code class="language-python">def view_applications():
+    with open(FILENAME, mode="r") as file:
+        reader = csv.DictReader(file)
+        print("\n--- Job Applications ---")
+        print("Company | Position | Date Applied | Status | Notes")
+        for row in reader:
+            print(f"{row['Company']} | {row['Position']} | {row['Date Applied']} | {row['Status']} | {row['Notes']}")</code></pre>
                 </div>
+                <p>The result isn’t flashy, but it’s functional. You can see exactly what you’ve applied for, when, and where things stand. It’s also a great base for future improvements, such as adding filtering (e.g., “show me only interviews”) or sorting by date.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="number">6.</span>Pulling It Together</h2>
+                <p>The last piece of the puzzle is the main() function, which ties everything together with a simple menu loop.</p>
                 
-                <div class="why-highlight">
-                    <strong>Why highlight:</strong> Classic CLI pattern that works. Experienced devs will recognize the simplicity, beginners can understand the flow immediately. Clear, predictable, and gets the job done.
+                <div class="code-section">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre class="line-numbers"><code class="language-python">def main():
+    init_file()
+    while True:
+        print("\nOptions: [1] Add [2] View [3] Quit")
+        choice = input("Choose: ")
+        if choice == "1":
+            add_application()
+        elif choice == "2":
+            view_applications()
+        elif choice == "3":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice.")</code></pre>
                 </div>
+                <p>When you run the script, you’re greeted with three options: add a new application, view the existing ones, or quit. The loop makes it possible to add or view multiple applications in one run, and the structure is simple enough that anyone comfortable with Python basics can follow along. For developers with more experience, the modular design—each function doing one clear job—shows how small utilities can be structured cleanly even when they’re simple.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Not Finished on Purpose</h2>
+                <p>The project isn’t "finished" and that’s by design. Right now it covers the basics: tracking applications in a clean, reusable way. But it’s easy to imagine where it could go next. You might add filtering so you can see only applications that are still active, or export the data into a format you can share with a mentor. You could even connect it to a database or send yourself automated reminders. By leaving it open-ended, the script serves as both a useful tool and a foundation for learning.</p>
+
+                <p>The full code and a list of potential extensions can be found in the GitHub repo linked at the bottom of this page. If you decide to build on it, you’ll not only make the tool more useful for yourself, but you’ll also get some extra practice with Python that directly ties to solving real-world problems.</p>
             </div>
 
             <div class="section">
                 <h2 class="section-title">Wrapping Up</h2>
                 <p>These snippets work well because they show practical patterns without overwhelming complexity. They demonstrate real-world considerations like file existence checks and user-friendly defaults, and illustrate how simple code can still be well-structured and thoughtful.</p>
                 <p>The beauty of this approach is that it solves a real problem with straightforward Python. No frameworks, no over-engineering—just clean, working code that anyone can understand and modify.</p>
+                
             </div>
         </article>
     </div>
