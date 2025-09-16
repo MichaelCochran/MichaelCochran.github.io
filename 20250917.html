@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Job Application Tracker - TechBlog</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --accent-color: #0ea5e9;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+            --highlight-bg: #1e40af;
+            --gradient: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 0 60px 0;
+            position: relative;
+        }
+
+        .blog-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)); }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+
+        /* Article */
+        .article {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--gradient);
+            margin-right: 15px;
+            border-radius: 2px;
+        }
+
+        .section-title .number {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Code blocks */
+        .code-section {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .code-label {
+            background: var(--highlight-bg);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: -1px;
+        }
+
+        pre {
+            border-radius: 0 12px 12px 12px !important;
+            margin: 0 !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid var(--border-color) !important;
+            overflow-x: auto;
+        }
+
+        pre code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .why-highlight {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .why-highlight::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--card-bg);
+            padding: 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .why-highlight strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .blog-title {
+                font-size: 2.5rem;
+            }
+            
+            .article {
+                padding: 30px 25px;
+                border-radius: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            pre code {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Scroll animations */
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        .section:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Copy button for code blocks */
+        .copy-btn {
+            position: absolute;
+            top: 45px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="blog-title">Building a Job Application Tracker</h1>
+            <p class="subtitle">Simple Python Scripts That Actually Work</p>
+            <div class="meta">Published on September 16, 2025 • 5 min read</div>
+        </header>
+
+        <article class="article">
+            <div class="section">
+                <p>Job hunting is tough enough without losing track of where you've applied. Today, we'll build a simple but effective job application tracker using Python. Whether you're just starting with Python or you're an experienced developer looking for practical examples, this script demonstrates some clean patterns worth knowing.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="number">1.</span>The Clean File Initialization Pattern</h2>
+                <p>First up, let's look at how we handle file setup. This is the kind of defensive programming that prevents headaches later:</p>
+                
+                <div class="code-section">
+                    <div class="code-label">File Setup - tracker.py</div>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre class="line-numbers"><code class="language-python">def init_file():
+    if not os.path.exists(FILENAME):
+        with open(FILENAME, mode="w", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=FIELDS)
+            writer.writeheader()</code></pre>
+                </div>
+                
+                <div class="why-highlight">
+                    <strong>Why this works:</strong> Shows good defensive programming and file handling. Beginners learn about checking file existence, while experienced devs appreciate the clean setup pattern. No crashes, no overwrites—just smooth operation.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="number">2.</span>Smart Date Defaulting</h2>
+                <p>Here's a small touch that makes a big difference in user experience:</p>
+                
+                <div class="code-section">
+                    <div class="code-label">User-Friendly Input Handling</div>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre class="line-numbers"><code class="language-python">applied_date = input("Date Applied (YYYY-MM-DD, blank for today): ")
+if not applied_date:
+    applied_date = str(date.today())</code></pre>
+                </div>
+                
+                <div class="why-highlight">
+                    <strong>Why highlight:</strong> Demonstrates thoughtful UX design in CLI apps. Simple but shows consideration for user experience that both audiences can appreciate. Most applications happen "today" anyway!
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="number">3.</span>The Complete Data Flow</h2>
+                <p>Clean, readable data handling doesn't need to be complex:</p>
+                
+                <div class="code-section">
+                    <div class="code-label">Structured Data Writing</div>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre class="line-numbers"><code class="language-python">writer.writerow({
+    "Company": company,
+    "Position": position,
+    "Date Applied": applied_date,
+    "Status": status,
+    "Notes": notes,
+})</code></pre>
+                </div>
+                
+                <div class="why-highlight">
+                    <strong>Why highlight:</strong> Clean dictionary-based CSV writing that's readable and maintainable. Shows how structured data handling doesn't need to be complex. The field names are self-documenting.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="number">4.</span>The Simple but Effective Main Loop</h2>
+                <p>Sometimes the classics work best:</p>
+                
+                <div class="code-section">
+                    <div class="code-label">CLI Menu System</div>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre class="line-numbers"><code class="language-python">while True:
+    print("\nOptions: [1] Add [2] View [3] Quit")
+    choice = input("Choose: ")
+    if choice == "1":
+        add_application()
+    elif choice == "2":
+        view_applications()
+    elif choice == "3":
+        print("Goodbye!")
+        break
+    else:
+        print("Invalid choice.")</code></pre>
+                </div>
+                
+                <div class="why-highlight">
+                    <strong>Why highlight:</strong> Classic CLI pattern that works. Experienced devs will recognize the simplicity, beginners can understand the flow immediately. Clear, predictable, and gets the job done.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Wrapping Up</h2>
+                <p>These snippets work well because they show practical patterns without overwhelming complexity. They demonstrate real-world considerations like file existence checks and user-friendly defaults, and illustrate how simple code can still be well-structured and thoughtful.</p>
+                <p>The beauty of this approach is that it solves a real problem with straightforward Python. No frameworks, no over-engineering—just clean, working code that anyone can understand and modify.</p>
+            </div>
+        </article>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.parentElement.querySelector('code');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'rgba(34, 197, 94, 0.8)';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 2000);
+            });
+        }
+
+        // Add smooth scrolling for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
