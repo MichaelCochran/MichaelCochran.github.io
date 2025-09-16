@@ -1,115 +1,559 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code by Mike</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mike's Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #64748b;
+      --accent-color: #0ea5e9;
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --border-color: #334155;
+      --highlight-bg: #1e40af;
+      --gradient: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 120px 0 100px 0;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 900;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 25px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3)); }
+      to { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)); }
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
+
+    .hero-description {
+      color: var(--secondary-color);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--gradient);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn.secondary {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn.secondary:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 15px 35px rgba(14, 165, 233, 0.3);
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    /* Grid Layouts */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .grid.skills-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-color);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card:hover {
+      transform: translateY(-15px) scale(1.02);
+      border-color: var(--accent-color);
+      box-shadow: 0 35px 70px rgba(14, 165, 233, 0.2);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .card small {
+      color: var(--accent-color);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* About Section */
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Testimonials */
+    .testimonial {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .testimonial::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      font-size: 4rem;
+      color: var(--accent-color);
+      font-family: serif;
+    }
+
+    .testimonial:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent-color);
+    }
+
+    /* Contact Section */
+    .contact {
+      background: var(--card-bg);
+      padding: 80px 0;
+      margin-top: 50px;
+      border-top: 4px solid;
+      border-image: var(--gradient) 1;
+      position: relative;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 40px auto 0;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      text-align: left;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 15px 20px;
+      background: var(--bg-color);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--secondary-color);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .contact-description {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.2s; }
+    .fade-in:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .card {
+        padding: 30px 20px;
+      }
+      
+      .about-content {
+        padding: 30px 20px;
+      }
+    }
+  </style>
 </head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1X870Q6MEL"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-1X870Q6MEL');
-</script>
 <body>
-    <div class="topnav">
-        <a href="index.html">Home</a>
-        <a href="https://github.com/MichaelCochran">GitHub</a>
-        <a href="blog.html">Blog</a>
-        <a href="contact.html">Contact</a>
-    </div>
 
-    <div class="header" id="mainHeader" >
-        <div class="header-box">
-            <h1>Code by Mike</h1>
-        </div>
-    </div>
-
+  <!-- Hero Section -->
+  <section class="hero">
     <div class="container">
-        <div class="section" id="section0">
-            <img src="https://ghchart.rshah.org/MichaelCochran" alt="My Github chart" />
-        </div>
+      <h1 class="hero-title">Code by Mike</h1>
+      <p class="hero-subtitle">Passionate software developer with a strong foundation in defense contracting</p>
+      <p class="hero-description">Software Test Engineer | BYU-Idaho Graduate | Defense Industry Professional</p>
+      <a class="btn" href="#projects">View Projects</a>
+      <a class="btn secondary" href="https://github.com/MichaelCochran">GitHub</a>
     </div>
+  </section>
 
+  <!-- Projects Section -->
+  <section id="projects" class="section">
     <div class="container">
-        <div class="section" id="section1">
-            <h2>Who Am I?</h2>
-            <p>I'm a passionate software developer with a strong foundation in software development, honed through academic and professional experiences. I graduated from Brigham Young University Idaho in 2023 with a bachelor's degree in Software Engineering and have since been dedicated to advancing my skills and contributing to impactful projects.</p>
-
-            <h2>Professional Journey</h2>
-            <p>Since October 2023, I have been working as a Software Test Engineer, focusing on modeling software used by government contractors to help ensure national security. This role has allowed me to engage deeply with various aspects of the software development lifecycle (SDLC) and Agile methodologies. My work supports defense contracting, a field I am deeply committed to due to its vital role in national safety and well-being.</p>
-
-            <p>In addition to my full-time role, I am also developing a personal software project aimed at helping individuals better manage their finances. This project reflects my interest in creating practical, user-friendly solutions that address real-world challenges.</p>
-
-            <h2>Personal Projects and Learning</h2>
-            <p>I am constantly seeking to improve my skills through self-study and online courses from platforms like Codecademy and DataCamp. I believe in lifelong learning and am currently looking at which Masters program will best add to my skills and experience.</p>
-
-            <h2>Passion for Writing</h2>
-            <p>Recognizing the value of sharing knowledge, I have initiated "Write It Wednesdays," a personal commitment to blog about my learning experiences. These blog posts will document my journey through projects, courses, and readings, providing insights and takeaways for fellow developers.</p>
-
-            <h2>Values and Aspirations</h2>
-            <p>My career is driven by a desire to contribute to the defense sector, inspired by the veterans in my family who instilled in me a strong sense of duty and service. Looking ahead, I aspire to possibly start my own business in the defense industry, providing innovative solutions and services.</p>
-            <p>In my daily routine, I prioritize personal growth and balance, dedicating time to study and family responsibilities. These practices ground me and fuel my dedication to my professional and personal endeavors.</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="grid">
+        <div class="card fade-in">
+          <h3>ITASE - Defense Modeling</h3>
+          <p>Modeling and simulation software for government contractors supporting scenario simulation and analysis for national security.</p>
+          <p><small>Quality Assurance · Team Coordination · Government Contract</small></p>
         </div>
-
-        <br>
-        <hr>
-
-        <div class="section" id="section2">
-            <h2>Projects</h2>
-            <p>This section will showcase some of the projects I've worked on. From personal projects to professional work, each project demonstrates my skills and experience. Links to these projects are provided where possible.</p>
-            
-            <h3>Current Employment</h3>
-            <p>In my current role, I contribute to ITASE, a modeling and simulation software developed under government contract to support scenario simulation and analysis. While the work is unclassified, it intersects with classified materials, and details are limited to maintain operational security.</p>
-            <p>My responsibilities include ensuring the quality of the project by collaborating across two distinct teams and facilitating coordination between them. Additionally, I am involved in developing and refining strategies and workflows to optimize quality assurance procedures, ensuring the software meets the highest standards of reliability and performance.</p>
-
-            <h3><a href="https://github.com/MichaelCochran/rabbit_breeding">Rabbit Breeding</a></h3>
-            <p>This is a project that was initially meant to help me track the breeding production of the rabbits I had on my homestead. Originally this was then end of the functionality planned other than adding a GUI to make it more user friendly.</p>
-            <p>This project is now in a stage of redesign so that I can add functionaliy for other animals. Plans include adding support for cows, pigs, horses, and goats. The GUI is still planned but has to have a redesign as well due to the added functionality.</p>
-
-            <h3><a href="https://github.com/MichaelCochran/Password-Strength">Password Strength</a></h3>
-            <p>This rather simplistic script takes user input and gives a bit strength of the password provided. This is one of those projects that is an exercise in futility. There is no practical use for this project it its current state but might be useful if added to another program to ensure useres select passwords of a minimum strength.</p>
-            
-            <h3>NutriFacts</h3>
-            <p>NutriFacts was inspired by my wife’s and my commitment to living a healthier lifestyle. As we worked to improve our nutrition, we noticed gaps in our diet and wanted a practical way to track the nutrients in our meals. This motivation led to the development of NutriFacts as my senior project during my bachelor's degree program.</p>
-            <p>The application allows users to input recipe ingredients along with their quantities. It then queries a publicly available  <a href="https://fdc.nal.usda.gov/">database</a> to calculate the nutritional content of each ingredient. The program aggregates this information and presents it in a clear, user-friendly format resembling a standard nutrition facts label—hence the name, NutriFacts. </p>
-            <p>This project is slated for redevelopment, incorporating improvements identified during the initial version’s development. While no code is currently available for this project, a link will be provided once the updated version is completed.</p>    
+        <div class="card fade-in">
+          <h3><a href="https://github.com/MichaelCochran/rabbit_breeding" style="color: var(--accent-color); text-decoration: none;">Rabbit Breeding Tracker</a></h3>
+          <p>Homestead management tool for tracking breeding production, being redesigned to support multiple animal types including cows, pigs, horses, and goats.</p>
+          <p><small>Python · GUI Development · Redesign in Progress</small></p>
         </div>
-
-        <br>
-        <hr>
-
-        <div class="section" id="section3">
-            <h2>Skills</h2>
-            <p>My professional journey has taken me through a variety of industries and included time in the military, each of which has contributed unique and valuable experiences. These diverse environments have allowed me to cultivate a broad skill set and a well-rounded perspective, enabling me to adapt quickly to new challenges and collaborate effectively with individuals from different backgrounds. Some of the skills I have gained through these experiences are detailed in the list below, showcasing my ability to thrive in dynamic and multifaceted roles.</p>
-            <div class="row">
-                <div class="column">
-                    <li>Project Management</li>
-                    <li>Team Collaboration</li>
-                    <li>Situational Awareness</li>
-                    <li>Effective Communication</li>
-                    <li>Leadership and Decision-Making</li>
-                    <li>Professional Assertiveness</li>
-                    <li>Active Listener</li>
-                    <li>Tactical Problem Solving</li>
-                </div>
-                <div class="column">
-                    <li>Agile Methodology</li>
-                    <li>SDLC</li>
-                    <li>Python</li>
-                    <li>MySQL</li>
-                    <li>Git</li>
-                    <li>GitHub/GitLab</li>
-                    <li>Linux</li>
-                    <li>Shell Scripting</li>
-                    <li>HTML</li>
-                    </ul>
-                </div>
-            </div>
-            <ul>
+        <div class="card fade-in">
+          <h3><a href="https://github.com/MichaelCochran/Password-Strength" style="color: var(--accent-color); text-decoration: none;">Password Strength Analyzer</a></h3>
+          <p>Security utility that evaluates password strength and provides feedback to ensure users select secure passwords.</p>
+          <p><small>Python · Security · User Input Validation</small></p>
         </div>
+        <div class="card fade-in">
+          <h3>NutriFacts</h3>
+          <p>Senior project inspired by healthy lifestyle goals. Calculates nutritional content of recipes using USDA database and presents data as nutrition facts labels.</p>
+          <p><small>Python · API Integration · Database · Redevelopment Planned</small></p>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- Work & Skills Section -->
+  <section id="skills" class="section">
+    <div class="container">
+      <h2 class="section-title">Skills & Experience</h2>
+      <div class="grid skills-grid">
+        <div class="card fade-in">
+          <h3>Programming & Technical</h3>
+          <p>Python, MySQL, Git, GitHub/GitLab, Linux, Shell Scripting, HTML</p>
+        </div>
+        <div class="card fade-in">
+          <h3>Development Methodologies</h3>
+          <p>Agile Methodology, SDLC, Project Management, Quality Assurance</p>
+        </div>
+        <div class="card fade-in">
+          <h3>Leadership & Communication</h3>
+          <p>Team Collaboration, Effective Communication, Leadership and Decision-Making, Active Listening</p>
+        </div>
+        <div class="card fade-in">
+          <h3>Problem Solving & Strategy</h3>
+          <p>Tactical Problem Solving, Situational Awareness, Professional Assertiveness</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Professional Journey Section -->
+  <section id="journey" class="section">
+    <div class="container">
+      <h2 class="section-title">Professional Journey</h2>
+      <div class="about-content">
+        <p><strong>Current Role:</strong> Since October 2023, I have been working as a Software Test Engineer, focusing on modeling software used by government contractors. This role allows me to engage deeply with various aspects of the software development lifecycle (SDLC) and Agile methodologies while supporting defense contracting—a field I am deeply committed to due to its vital role in national safety and well-being.</p>
+        
+        <p><strong>Personal Projects:</strong> I am developing a personal software project aimed at helping individuals better manage their finances, reflecting my interest in creating practical, user-friendly solutions that address real-world challenges.</p>
+        
+        <p><strong>Continuous Learning:</strong> I believe in lifelong learning and am currently evaluating which Masters program will best add to my skills and experience. I regularly take courses on Codecademy and DataCamp to stay current with technology trends.</p>
+        
+        <p><strong>Future Aspirations:</strong> Looking ahead, I aspire to possibly start my own business in the defense industry, providing innovative solutions and services that contribute to national security.</p>
+      </div>
+    </div>
+  </section>
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <p>I'm a passionate software developer with a strong foundation in software development, honed through academic and professional experiences. I graduated from Brigham Young University Idaho in 2023 with a bachelor's degree in Software Engineering.</p>
+        
+        <p>Since October 2023, I've been working as a Software Test Engineer, focusing on modeling software used by government contractors to help ensure national security. My career is driven by a desire to contribute to the defense sector, inspired by the veterans in my family who instilled in me a strong sense of duty and service.</p>
+        
+        <p>I'm constantly seeking to improve my skills through self-study and online courses from platforms like Codecademy and DataCamp. I also maintain "Write It Wednesdays," a personal commitment to blog about my learning experiences and share knowledge with fellow developers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GitHub Activity Section -->
+  <section id="activity" class="section">
+    <div class="container">
+      <h2 class="section-title">GitHub Activity</h2>
+      <div style="text-align: center; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);">
+        <img src="https://ghchart.rshah.org/MichaelCochran" alt="Mike's GitHub Contribution Chart" style="max-width: 100%; height: auto; border-radius: 8px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="philosophy" class="section">
+    <div class="container">
+      <h2 class="section-title">Professional Philosophy</h2>
+      <div class="grid">
+        <div class="testimonial fade-in">
+          My diverse professional journey through various industries and military service has cultivated a broad skill set and well-rounded perspective, enabling me to adapt quickly to new challenges and collaborate effectively with individuals from different backgrounds.
+        </div>
+        <div class="testimonial fade-in">
+          Currently contributing to defense contracting work that supports national security through quality assurance and team coordination across complex software development projects.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title">Contact Me</h2>
+      <p class="contact-description">Let's collaborate on meaningful software solutions.</p>
+      <form class="contact-form">
+        <div class="form-group">
+          <input type="text" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <textarea placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add intersection observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade-in elements
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+
 </body>
 </html>
