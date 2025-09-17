@@ -233,6 +233,38 @@
       font-size: 0.9rem;
     }
 
+    /* Experience Card Specific Styles */
+    .experience-card {
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .experience-card .position {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-bottom: 5px;
+    }
+
+    .experience-card .company {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .experience-card .duration {
+      font-size: 0.95rem;
+      color: var(--secondary-color);
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    .experience-card .description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
     /* About Section */
     .about-content {
       max-width: 800px;
@@ -388,6 +420,45 @@
       <p class="hero-description">Software Test Engineer | BYU-Idaho Graduate | Defense Industry Professional</p>
       <a class="btn" href="#projects">View Projects</a>
       <a class="btn secondary" href="https://github.com/MichaelCochran">GitHub</a>
+      <a class="btn secondary" href="blog.html">Blog</a>
+      <a class="btn secondary" href="contact.html">Contact</a>
+    </div>
+  </section>
+
+  <!-- GitHub Activity Section -->
+  <section id="activity" class="section">
+    <div class="container">
+      <h2 class="section-title">GitHub Activity</h2>
+      <div style="text-align: center; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);">
+        <img src="https://ghchart.rshah.org/MichaelCochran" alt="Mike's GitHub Contribution Chart" style="max-width: 100%; height: auto; border-radius: 8px;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Professional Experience Section -->
+  <section id="experience" class="section">
+    <div class="container">
+      <h2 class="section-title">Professional Experience</h2>
+      <div class="grid">
+        <div class="card experience-card fade-in">
+          <div class="position">Associate Software Engineer</div>
+          <div class="company">GUIDON - Cybersecurity Suite</div>
+          <div class="duration">May 2025 - Present</div>
+          <div class="description">
+            Develop and maintain front-end components for a mission-critical U.S. Army cybersecurity application. Collaborate in an Agile/Scrum environment with cross-functional teams while conducting weekly code reviews to ensure quality and adherence to standards. Operate under Secret clearance ensuring compliance with DoD cybersecurity policies.
+          </div>
+          <p><small>TypeScript • React • GitLab • Jira • Secret Clearance • DoD Standards</small></p>
+        </div>
+        <div class="card experience-card fade-in">
+          <div class="position">Associate Software Test Engineer</div>
+          <div class="company">ITASE - Defense Modeling</div>
+          <div class="duration">October 2023 - May 2025</div>
+          <div class="description">
+            Develop and execute automated tests for modeling and simulation software used by government contractors supporting scenario simulation and analysis for national security. Refine and optimize test procedures contributing to measurable improvements in workflow performance while collaborating with development teams to identify and address potential issues. Maintain Secret clearance adhering to security procedures and best practices.
+          </div>
+          <p><small>GoogleTest • Qt Test • PyAutoGUI • Secret Clearance • Test Automation • Government Contract</small></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -397,24 +468,19 @@
       <h2 class="section-title">Projects</h2>
       <div class="grid">
         <div class="card fade-in">
-          <h3>ITASE - Defense Modeling</h3>
-          <p>Modeling and simulation software for government contractors supporting scenario simulation and analysis for national security.</p>
-          <p><small>Quality Assurance · Team Coordination · Government Contract</small></p>
-        </div>
-        <div class="card fade-in">
           <h3><a href="https://github.com/MichaelCochran/rabbit_breeding" style="color: var(--accent-color); text-decoration: none;">Rabbit Breeding Tracker</a></h3>
           <p>Homestead management tool for tracking breeding production, being redesigned to support multiple animal types including cows, pigs, horses, and goats.</p>
-          <p><small>Python · GUI Development · Redesign in Progress</small></p>
+          <p><small>Python • GUI Development • Redesign in Progress</small></p>
         </div>
         <div class="card fade-in">
           <h3><a href="https://github.com/MichaelCochran/Password-Strength" style="color: var(--accent-color); text-decoration: none;">Password Strength Analyzer</a></h3>
           <p>Security utility that evaluates password strength and provides feedback to ensure users select secure passwords.</p>
-          <p><small>Python · Security · User Input Validation</small></p>
+          <p><small>Python • Security • User Input Validation</small></p>
         </div>
         <div class="card fade-in">
           <h3>NutriFacts</h3>
           <p>Senior project inspired by healthy lifestyle goals. Calculates nutritional content of recipes using USDA database and presents data as nutrition facts labels.</p>
-          <p><small>Python · API Integration · Database · Redevelopment Planned</small></p>
+          <p><small>Python • API Integration • Database • Redevelopment Planned</small></p>
         </div>
       </div>
     </div>
@@ -423,7 +489,7 @@
   <!-- Work & Skills Section -->
   <section id="skills" class="section">
     <div class="container">
-      <h2 class="section-title">Skills & Experience</h2>
+      <h2 class="section-title">Skills</h2>
       <div class="grid skills-grid">
         <div class="card fade-in">
           <h3>Programming & Technical</h3>
@@ -445,41 +511,30 @@
     </div>
   </section>
 
-  <!-- Professional Journey Section -->
+  <!-- Goals & Development Section -->
   <section id="journey" class="section">
     <div class="container">
-      <h2 class="section-title">Professional Journey</h2>
+      <h2 class="section-title">Goals & Development</h2>
       <div class="about-content">
-        <p><strong>Current Role:</strong> Since October 2023, I have been working as a Software Test Engineer, focusing on modeling software used by government contractors. This role allows me to engage deeply with various aspects of the software development lifecycle (SDLC) and Agile methodologies while supporting defense contracting—a field I am deeply committed to due to its vital role in national safety and well-being.</p>
+        <p><strong>Personal Projects:</strong> I am developing a personal software project aimed at helping individuals in a variety of areas. Each of these reflect my interest in creating practical, user-friendly solutions that address real-world challenges.</p>
         
-        <p><strong>Personal Projects:</strong> I am developing a personal software project aimed at helping individuals better manage their finances, reflecting my interest in creating practical, user-friendly solutions that address real-world challenges.</p>
+        <br>
+        <p><strong>Continuous Learning:</strong> I believe in lifelong learning and am currently evaluating which Masters program will best add to my skills and experience. I regularly take courses on Codecademy and DataCamp as well as a growing library to help stay current with technology trends.</p>
         
-        <p><strong>Continuous Learning:</strong> I believe in lifelong learning and am currently evaluating which Masters program will best add to my skills and experience. I regularly take courses on Codecademy and DataCamp to stay current with technology trends.</p>
-        
+        <br>
         <p><strong>Future Aspirations:</strong> Looking ahead, I aspire to possibly start my own business in the defense industry, providing innovative solutions and services that contribute to national security.</p>
       </div>
     </div>
   </section>
+
   <!-- About Section -->
   <section id="about" class="section">
     <div class="container">
       <h2 class="section-title">About Me</h2>
       <div class="about-content">
-        <p>I'm a passionate software developer with a strong foundation in software development, honed through academic and professional experiences. I graduated from Brigham Young University Idaho in 2023 with a bachelor's degree in Software Engineering.</p>
-        
-        <p>Since October 2023, I've been working as a Software Test Engineer, focusing on modeling software used by government contractors to help ensure national security. My career is driven by a desire to contribute to the defense sector, inspired by the veterans in my family who instilled in me a strong sense of duty and service.</p>
-        
-        <p>I'm constantly seeking to improve my skills through self-study and online courses from platforms like Codecademy and DataCamp. I also maintain "Write It Wednesdays," a personal commitment to blog about my learning experiences and share knowledge with fellow developers.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- GitHub Activity Section -->
-  <section id="activity" class="section">
-    <div class="container">
-      <h2 class="section-title">GitHub Activity</h2>
-      <div style="text-align: center; background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);">
-        <img src="https://ghchart.rshah.org/MichaelCochran" alt="Mike's GitHub Contribution Chart" style="max-width: 100%; height: auto; border-radius: 8px;">
+        <br<p>I graduated from Brigham Young University Idaho in 2023 with a bachelor's degree in Software Engineering. My passion for technology is matched by my commitment to serving my country and contributing to national security through meaningful software solutions.</p>
+        <br><p>My career is driven by the veterans in my family who instilled in me a strong sense of duty and service. This inspiration guides my focus toward the defense sector, where I can combine my technical skills with my desire to make a positive impact on national security.</p>
+        <br><p>Beyond coding, I am working on a personal commitment to blog about my learning experiences and share knowledge with fellow developers. I believe in the power of community and knowledge sharing to elevate the entire software development field.</p>
       </div>
     </div>
   </section>
@@ -496,26 +551,6 @@
           Currently contributing to defense contracting work that supports national security through quality assurance and team coordination across complex software development projects.
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <div class="container">
-      <h2 class="section-title">Contact Me</h2>
-      <p class="contact-description">Let's collaborate on meaningful software solutions.</p>
-      <form class="contact-form">
-        <div class="form-group">
-          <input type="text" placeholder="Your Name" required>
-        </div>
-        <div class="form-group">
-          <input type="email" placeholder="Your Email" required>
-        </div>
-        <div class="form-group">
-          <textarea placeholder="Your Message" required></textarea>
-        </div>
-        <button type="submit" class="btn">Send Message</button>
-      </form>
     </div>
   </section>
 
